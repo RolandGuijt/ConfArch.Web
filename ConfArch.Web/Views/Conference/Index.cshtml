@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ConfArch.Data.Models.ConferenceModel>
+<div class="row">
+    <div class="col-md-10 col-md-offset-2">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Start of event</th>
+                <th>Attendees</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var conference in Model)
+            {
+                <tr>
+                    <td>@conference.Name</td>
+                    <td>@conference.Location</td>
+                    <td>@conference.Start.ToString("ddd d MMM")</td>
+                    <td>@conference.AttendeeCount</td>
+                    <td>
+                        <a asp-controller="Proposal" asp-action="Index" asp-route-conferenceId="@conference.Id">Proposals</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <a asp-action="Add">Add</a>
+
+    </div>
+</div>
+
