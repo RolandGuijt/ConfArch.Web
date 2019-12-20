@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ConfArch.Data.Models;
 using ConfArch.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConfArch.Web.Controllers
@@ -13,12 +14,14 @@ namespace ConfArch.Web.Controllers
         {
             this.repo = repo;
         }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.Title = "Organizer - Conference Overview";
             return View(await repo.GetAll());
         }
 
+        [Authorize]
         public IActionResult Add()
         {
             ViewBag.Title = "Organizer - Add Conference";
