@@ -30,8 +30,8 @@ namespace ConfArch.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     assembly => assembly.MigrationsAssembly(typeof(ConfArchDbContext).Assembly.FullName)));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+            services.AddAuthentication()
+                .AddCookie(o => o.);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
