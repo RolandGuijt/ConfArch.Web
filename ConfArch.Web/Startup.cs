@@ -25,13 +25,14 @@ namespace ConfArch.Web
             services.AddScoped<IConferenceRepository, ConferenceRepository>();
             services.AddScoped<IProposalRepository, ProposalRepository>();
             services.AddScoped<IAttendeeRepository, AttendeeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddDbContext<ConfArchDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     assembly => assembly.MigrationsAssembly(typeof(ConfArchDbContext).Assembly.FullName)));
 
-            services.AddAuthentication()
-                .AddCookie(o => o.);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

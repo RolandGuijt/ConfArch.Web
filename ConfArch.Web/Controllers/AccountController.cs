@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using ConfArch.Data.Repositories;
 using ConfArch.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,8 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConfArch.Web.Controllers
 {
-    public class AccountController: Controller
+    public class AccountController : Controller
     {
+        private readonly IUserRepository userRepository;
+
+        public AccountController(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         public IActionResult Login(string returnUrl = "/")
         {
             return View(new LoginModel { ReturnUrl = returnUrl });
@@ -18,20 +26,22 @@ namespace ConfArch.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if (!(model.Username == "roland" && model.Password == "secret"))
+            var user = userRepository.GetByUsernameAndPassword(model.Username, model.Password);
+            if (user == null)
                 return Unauthorized();
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, model.Username),
-                new Claim(ClaimTypes.Role, "Administrator"),
-                new Claim("FavoriteColor", "Blue")
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("FavoriteColor", user.FavoriteColor)
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, 
+                new AuthenticationProperties { IsPersistent = model.RememberLogin });
 
             return Redirect(model.ReturnUrl);
         }

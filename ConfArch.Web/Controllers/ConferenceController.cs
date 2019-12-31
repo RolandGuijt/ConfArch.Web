@@ -21,7 +21,6 @@ namespace ConfArch.Web.Controllers
             return View(await repo.GetAll());
         }
 
-        [Authorize]
         public IActionResult Add()
         {
             ViewBag.Title = "Organizer - Add Conference";
