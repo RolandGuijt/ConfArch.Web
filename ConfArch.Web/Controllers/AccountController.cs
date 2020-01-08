@@ -43,7 +43,7 @@ namespace ConfArch.Web.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, 
                 new AuthenticationProperties { IsPersistent = model.RememberLogin });
 
-            return Redirect(model.ReturnUrl);
+            return LocalRedirect(model.ReturnUrl);
         }
 
         public async Task<IActionResult> Logout()
