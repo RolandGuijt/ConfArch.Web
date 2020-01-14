@@ -1,6 +1,7 @@
 using ConfArch.Data;
 using ConfArch.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,8 +33,15 @@ namespace ConfArch.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     assembly => assembly.MigrationsAssembly(typeof(ConfArchDbContext).Assembly.FullName)));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            services.AddAuthentication(o => {
+                o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;           
+            })
+                .AddCookie()
+                .AddGoogle(o => {
+                    o.ClientId = "455500451200-g7ijj2lsfi3hfualk2il7plolrbtpd3a.apps.googleusercontent.com";
+                    o.ClientSecret = "5ExwgELgP2CntPxVye11PZ_c";
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

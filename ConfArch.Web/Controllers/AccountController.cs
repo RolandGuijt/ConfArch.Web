@@ -5,6 +5,7 @@ using ConfArch.Data.Repositories;
 using ConfArch.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConfArch.Web.Controllers
@@ -44,6 +45,11 @@ namespace ConfArch.Web.Controllers
                 new AuthenticationProperties { IsPersistent = model.RememberLogin });
 
             return LocalRedirect(model.ReturnUrl);
+        }
+
+        public async Task<IActionResult> LoginWithGoogle()
+        {
+            return Challenge(GoogleDefaults.AuthenticationScheme);
         }
 
         public async Task<IActionResult> Logout()
