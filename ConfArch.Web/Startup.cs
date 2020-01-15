@@ -35,7 +35,7 @@ namespace ConfArch.Web
 
             services.AddAuthentication(o => {
                 o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;           
+                //o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;           
             })
                 .AddCookie()
                 .AddCookie(ExternalAuthenticationDefaults.AuthenticationScheme)
