@@ -6,5 +6,6 @@
         public string Password { get; set; }
         public string FavoriteColor { get; set; }
         public string Role { get; set; }
+        public string GoogleId { get; set; }
     }
 }

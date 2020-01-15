@@ -38,7 +38,9 @@ namespace ConfArch.Web
                 o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;           
             })
                 .AddCookie()
-                .AddGoogle(o => {
+                .AddCookie(ExternalAuthenticationDefaults.AuthenticationScheme)
+                .AddGoogle(o => {                
+                    o.SignInScheme = ExternalAuthenticationDefaults.AuthenticationScheme;
                     o.ClientId = "455500451200-g7ijj2lsfi3hfualk2il7plolrbtpd3a.apps.googleusercontent.com";
                     o.ClientSecret = "5ExwgELgP2CntPxVye11PZ_c";
                 });
