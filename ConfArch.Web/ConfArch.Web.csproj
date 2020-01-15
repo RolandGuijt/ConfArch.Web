@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ConfArch.Data\ConfArch.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>
