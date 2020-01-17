@@ -19,6 +19,12 @@ namespace ConfArch.Web.Areas.Identity
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ConfArchWebContext>();
+
+                services.AddAuthentication()
+                    .AddGoogle(o => {
+                        o.ClientId = "455500451200-g7ijj2lsfi3hfualk2il7plolrbtpd3a.apps.googleusercontent.com";
+                        o.ClientSecret = "5ExwgELgP2CntPxVye11PZ_c";
+                    });
             });
         }
     }
