@@ -1,5 +1,7 @@
 ﻿using ConfArch.Web.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,11 +19,17 @@ namespace ConfArch.Web.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ConfArchWebContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ConfArchWebContext>();
+                services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<ConfArchWebContext>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders();
+
+                services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsFactory>();
+                services.AddTransient<IEmailSender, EmailSender>();
 
                 services.AddAuthentication()
-                    .AddGoogle(o => {
+                    .AddGoogle(o =>
+                    {
                         o.ClientId = "455500451200-g7ijj2lsfi3hfualk2il7plolrbtpd3a.apps.googleusercontent.com";
                         o.ClientSecret = "5ExwgELgP2CntPxVye11PZ_c";
                     });
